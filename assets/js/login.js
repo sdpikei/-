@@ -120,5 +120,48 @@
 })();
 
 (function () {
-    //  上传注册信息至服务器
+    // 注册提交至服务器
+    $('.creat [name=creatAccont]').on('submit', function (e) {
+        // 阻止默认提交
+        e.preventDefault()
+        // 打包数据
+        let data = {
+            username: $('.creat [name=username]').val(),
+            password: $('.creat [name=password]').val()
+        }
+        // ajaxpost传送至服务器
+        $.post('http://www.liulongbin.top:3007/api/reguser', data, function (res) {
+            console.log(res);
+            let layer = layui.layer
+            if (res.status !== 0) {
+                layer.msg(res.message)
+            }
+            // 成功后进行弹框
+
+            layer.msg(res.message)
+            // 触发登录点击事件
+            $('.btn').click()
+
+        })
+    })
+
+    // 登录信息提交至服务器
+    $('.login [name=loginAccont]').on('submit', function (e) {
+        // 阻止默认提交
+        e.preventDefault()
+        // 打包数据
+        let data = {
+            username: $('.login [name=username]').val(),
+            password: $('.login [name=password]').val()
+        }
+        // post发送
+
+        $.post('http://www.liulongbin.top:3007/api/login', data, function (res) {
+            if (res.status !== 0) {
+                layer.msg(res.message)
+            }
+            layer.msg(res.message)
+            // 跳转至index
+        })
+    })
 })();

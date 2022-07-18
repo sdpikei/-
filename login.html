@@ -17,12 +17,12 @@
         <!-- 登录部分 -->
         <div class="login action">
 
-            <form class="layui-form" action="">
+            <form class="layui-form" action="" name="loginAccont">
                 <img src="./assets/images/login_title.png" alt="">
                 <div class="layui-form-item">
                     <!-- <label class="layui-form-label"></label> -->
                     <i class="layui-icon layui-icon-user" id="nomarl"></i>
-                    <input type="text" name="title" required lay-verify="required|username" placeholder="请输入账号"
+                    <input type="text" name="username" required lay-verify="required|username" placeholder="请输入账号"
                         autocomplete="off" class="layui-input">
                     <span class="warring"></span>
 
@@ -85,20 +85,7 @@
     <script src="./assets/lib/template-web.js"></script>
     <script src="./assets/js/login.js"></script>
     <script>
-        // 注册提交至服务器
-        $('.creat [name=creatAccont]').on('submit', function (e) {
-            // 阻止默认提交
-            e.preventDefault()
-            // 打包数据
-            let data = {
-                username: $('.creat [name=username]').val(),
-                password: $('.creat [name=password]').val()
-            }
-            // ajaxpost传送至服务器
-            $.post('http://ajax.frontend.itheima.net/api/reguser', data, function (res) {
-                console.log(res);
-            })
-        })
+
 
 
     </script>
