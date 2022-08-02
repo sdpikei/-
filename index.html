@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>大事件</title>
+    <link rel="stylesheet" href="./assets/lib/layui/css/layui.css">
+    <link rel="stylesheet" href="./assets/css/index.css">
+    <link rel="stylesheet" href="./assets/lib/icon-font/iconfont.css">
+    <script src="https://eqcn.ajz.miesnfu.com/wp-content/plugins/wp-3d-pony/live2dw/lib/L2Dwidget.min.js"></script>
+    <script>
+        L2Dwidget.init({
+            "model": { "jsonPath": "https://unpkg.com/live2d-widget-model-shizuku@1.0.5/assets/shizuku.model.json", "scale": 1, "hHeadPos": 0.5, "vHeadPos": 0.618 },
+            "display": { "position": "left", "width": 100, "height": 200, "hOffset": 0, "vOffset": 0 },
+            "mobile": { "show": true, "scale": 0.5 },
+            "react": { "opacityDefault": 1, "opacityOnHover": 0.2 },
+        });
+    </script>
+
+</head>
+
+<body>
+
+    <body>
+        <div class="layui-layout layui-layout-admin">
+            <div class="layui-header">
+
+                <div class="layui-logo layui-hide-xs layui-bg-black hellow top">
+
+                    <img src="//tva1.sinaimg.cn/crop.0.0.118.118.180/5db11ff4gw1e77d3nqrv8j203b03cweg.jpg"
+                        class="layui-nav-img" name="avatar" style="display: none;">
+                    <div name="head" class="head">A</div>
+                    <span class="wName">欢迎:sdpikei!</span>
+
+                </div>
+                <!-- 头部区域（可配合layui 已有的水平导航） -->
+                <ul class="layui-nav layui-layout-left">
+
+                    <img src="./assets/images/logo.png" alt="">
+
+                </ul>
+                <ul class="layui-nav layui-layout-right leftNV">
+                    <li class="userHead layui-nav-item layui-hide layui-show-md-inline-block">
+                        <a href="javascript:;">
+                            <img src="//tva1.sinaimg.cn/crop.0.0.118.118.180/5db11ff4gw1e77d3nqrv8j203b03cweg.jpg"
+                                class="layui-nav-img" name="avatar" style="display: none;">
+                            <div name="head" class="head">A</div>
+                            <span class="username">个人中心</span>
+                        </a>
+                        <dl class="layui-nav-child">
+                            <dd><a href="#" id="baseInfo"><i class="iconfont icon-gerenziliao"></i>基本资料</a></dd>
+                            <dd><a href="#" id="reAvatar"><i class="iconfont icon-tiantong"></i>更换头像</a></dd>
+                            <dd><a href="#" id="resetpwd"><i class="iconfont icon-mima"></i>重置密码</a></dd>
+                        </dl>
+                    </li>
+                    <li class="layui-nav-item">
+
+                        <a href="#" class="quite"><i class="iconfont icon-zhuxiao"></i>注销</a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="layui-side layui-bg-black">
+                <div class="layui-side-scroll">
+                    <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+                    <ul class="layui-nav layui-nav-tree" lay-filter="test" lay-shrink="all">
+                        <li class="layui-nav-item layui-this"><a href="javascript:;" target="fm" name="home"><i
+                                    class="layui-icon layui-icon-home "></i>
+                                首页</a></li>
+                        <li class="layui-nav-item ">
+                            <a class="" href="javascript:;" target="fm"><i class="layui-icon layui-icon-read"></i>
+                                文章管理</a>
+                            <dl class="layui-nav-child">
+                                <dd><a href="javascript:;" target="fm" name="chartClass"><i
+                                            class="layui-icon layui-icon-app"></i>文章分类</a>
+                                </dd>
+                                <dd><a href="javascript:;" target="fm" name="chartList"><i
+                                            class="layui-icon layui-icon-app"></i>文章列表</a>
+                                </dd>
+
+                            </dl>
+                        </li>
+                        <li class="layui-nav-item">
+                            <a href="javascript:;"><i class="layui-icon layui-icon-username"></i>个人中心</a>
+                            <dl class="layui-nav-child">
+                                <dd><a href="javascript:;" target="fm" name="baseInfo"><i
+                                            class="layui-icon layui-icon-app"></i>基本资料</a>
+                                </dd>
+                                <dd><a href="javascript:;" target="fm" name="changeAvatar"><i
+                                            class="layui-icon layui-icon-app"></i>更换头像</a>
+                                </dd>
+                                <dd><a href="javascript:;" target="fm" name="resetPsw"><i
+                                            class="layui-icon layui-icon-app"></i>重置密码</a>
+                                </dd>
+                            </dl>
+                        </li>
+
+
+                    </ul>
+                </div>
+            </div>
+
+            <div class="layui-body">
+                <!-- 内容主体区域 -->
+                <div style="width:100%;height:100%;">
+                    <iframe src="./assets/home/dashboard.html" frameborder="0" name="fm"
+                        style="width: 100%;height: 100%;"></iframe>
+                </div>
+            </div>
+
+            <div class="layui-footer " style="text-align: center;border: 1px solid #fff; background-color: #fff;">
+                <!-- 底部固定区域 -->
+                escook ©2022 Created by sdpike
+            </div>
+
+        </div>
+        <!-- 阴影遮罩 -->
+        <div class="mask" id="mask"></div>
+        <!-- convas 动画 -->
+        <!-- <div id="live2d-widget" class="live2d-widget-container"
+            style="position: fixed; right: 0px; bottom: 0px; width: 200px; height: 400px; z-index: 999999999; opacity: 1; pointer-events: none;">
+            <canvas id="live2dcanvas" width="400" height="800"
+                tyle="position: absolute; left: 0px; top: 0px; width: 200px; height: 400px;"></canvas>
+        </div> -->
+        <script src="./assets/lib/layui/layui.js"></script>
+        <script src="./assets/lib/jquery.js"></script>
+        <script src="./assets/js/APIbase.js"></script>
+        <!-- <script src="./assets/lib/live2d-widget.js-master/L2Dwidget.min.js"></script> -->
+
+        <script>
+            //JS 
+            layui.use(['element', 'layer', 'util'], function () {
+                var element = layui.element
+                    , layer = layui.layer
+                    , util = layui.util
+                    , $ = layui.$;
+
+                //头部事件
+                util.event('lay-header-event', {
+                    //左侧菜单事件
+                    menuLeft: function (othis) {
+                        layer.msg('展开左侧菜单的操作', { icon: 0 });
+                    }
+                    , menuRight: function () {
+                        layer.open({
+                            type: 1
+                            , content: '<div style="padding: 15px;">处理右侧面板的操作</div>'
+                            , area: ['260px', '100%']
+                            , offset: 'rt' //右上角
+                            , anim: 5
+                            , shadeClose: true
+                        });
+                    }
+                });
+
+            });
+            (function () {
+
+
+                // 删除箭头
+                document.onreadystatechange = function () {
+                    if (document.readyState == "complete") {
+
+                        $('.leftNV .username').siblings('span').remove()
+                    }
+                }
+            })();
+            // 向服务器取得用户数据
+
+            function getuserInfor() {
+                $.ajax({
+                    method: 'GET',
+                    url: '/my/userinfo',
+
+                    success: function (res) {
+                        console.log(res);
+                        // 渲染头像
+                        rendeUserinfor(res)
+                    },
+
+                })
+            }
+            getuserInfor()
+
+            // 封装一个用户头像名字渲染函数
+            function rendeUserinfor(information) {
+
+                if (information.data.user_pic == null) {
+                    $('[name=avatar]').hide()
+                    $('.head').text(information.data.nickname[0] || information.data.username[0]).show()
+                }
+                else {
+
+                    $('[name=avatar]').attr('src', information.data.user_pic).show()
+                    $('.head').hide()
+                }
+                if (information.data.nickname || information.data.username) {
+                    $('.wName').text(`欢迎:${information.data.nickname || information.data.username}!`)
+                }
+            }
+
+
+            (function () {
+                // iframe模块切换
+                // 个人中心
+                $('[name=home]').on('click', function () {
+                    $('iframe').attr('src', './assets/home/dashboard.html')
+                })
+                $('[name=baseInfo]').on('click', function () {
+                    $('iframe').attr('src', './assets/home/userCenter.html')
+                })
+                $('[name=resetPsw]').on('click', function () {
+                    $('iframe').attr('src', './assets/home/resetpsw.html')
+                })
+                $('[name=changeAvatar]').on('click', function () {
+                    $('iframe').attr('src', './assets/home/setAvatar.html')
+                })
+                // 文章管理模块
+                $('[name=chartClass]').on('click', function () {
+                    $('iframe').attr('src', './assets/home/articleclass.html')
+                })
+                $('[name=chartList]').on('click', function () {
+                    $('iframe').attr('src', './assets/home/catelist.html')
+                })
+            })();
+            (function () {
+                // 头部事件模块
+                $('.quite').on('click', function () {
+                    // 注销
+                    let layer = layui.layer
+                    layer.confirm('纳尼？真的要退出吗', {
+                        btn: ['确认', '取消']
+
+                    }, function (index, layero) {
+                        //按钮【按钮一】的回调
+                        localStorage.clear('token')
+                        // 强制跳转至登录页面
+                        window.location.href = "http://127.0.0.1:5500/%E5%A4%A7%E4%BA%8B%E4%BB%B6%E9%A1%B9%E7%9B%AE/login.html"
+
+                    }, function (index) {
+                        //按钮【按钮二】的回调
+                    });
+                })
+
+                // 个人中心模块
+                $('#resetpwd').on('click', function () {
+                    $('[name=resetPsw]').click()
+                })
+                $('#baseInfo').on('click', function () {
+                    $('[name=baseInfo]').click()
+                })
+                $('#reAvatar').on('click', function () {
+                    $('[name=changeAvatar]').click()
+                })
+
+
+
+
+
+            })()
+
+
+
+        </script>
+    </body>
+</body>
+
+</html>

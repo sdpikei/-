@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <link rel="stylesheet" href="../lib/layui/css/layui.css">
+    <link rel="stylesheet" href="../css/userCenter.css">
+</head>
+
+<body>
+    <div class="title layui-card">基本资料</div>
+    <div class="layui-card">
+        <form class="layui-form" action="" name="userInfo">
+            <div class="layui-form-item">
+                <label class="layui-form-label">登录名称:</label>
+                <div class="layui-input-block">
+                    <input type="text" name="loginName" required lay-verify="required" placeholder="" autocomplete="off"
+                        class="layui-input" disabled>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">用户昵称:</label>
+                <div class="layui-input-block">
+                    <input type="text" name="nickName" required lay-verify="required|username" placeholder="请输入用户昵称"
+                        autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">用户邮箱:</label>
+                <div class="layui-input-block">
+                    <input type="text" name="email" required lay-verify="email" placeholder="请输入用户邮箱" autocomplete="off"
+                        class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button class="layui-btn" lay-submit lay-filter="formDemo">立即提交</button>
+                    <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                </div>
+            </div>
+            <input type="id" style="display: none;">
+        </form>
+    </div>
+
+    <script src="../lib/jquery.js"></script>
+    <script src="../lib/layui/layui.js"></script>
+    <script src="../js/userCenter.js"></script>
+    <script src="../js/APIbase.js"></script>
+    <script>
+        // 正则验证表单模块
+        layui.use('form', function () {
+            var form = layui.form;
+
+            //各种基于事件的操作，下面会有进一步介绍
+            form.verify({
+                username: function (value, item) { //value：表单的值、item：表单的DOM对象
+                    if (!new RegExp("^[a-zA-Z0-9_\u4e00-\u9fa5\\s·]+$").test(value)) {
+                        return '用户名不能有特殊字符';
+                    }
+                    if (/(^\_)|(\__)|(\_+$)/.test(value)) {
+                        return '用户名首尾不能出现下划线\'_\'';
+                    }
+                    if (/^\d+\d+\d$/.test(value)) {
+                        return '用户名不能全为数字';
+                    }
+
+                    //如果不想自动弹出默认提示框，可以直接返回 true，这时你可以通过其他任意方式提示（v2.5.7 新增）
+                    if (value === 'xxx') {
+                        alert('用户名不能为敏感词');
+                        return true;
+                    }
+                },
+                repass: function (value) {
+                    if (value != $('.creat [name=password]').val()) {
+                        return '两次输入密码不同！'
+                    }
+                }
+
+
+                //我们既支持上述函数式的方式，也支持下述数组的形式
+                //数组的两个值分别代表：[正则匹配、匹配不符时的提示文字]
+                , pass: [
+                    /^[\S]{6,12}$/
+                    , '密码必须6到12位，且不能出现空格'
+                ]
+            });
+        });
+        // 用户信息渲染修改模块
+        (function () {
+            // 获取用户名信息
+            function getUserinfo() {
+                $.ajax({
+                    method: 'GET',
+                    url: '/my/userinfo',
+                    success: function (res) {
+                        if (res.code !== 0) {
+                            return alert(res.message)
+
+                        }
+                        console.log(res);
+                        $('[type=id]').val(res.data.id)
+                        renderInfo(res)
+                    }
+
+                })
+            }
+            getUserinfo()
+            //封装一个渲染函数
+            function renderInfo(datas) {
+                $('[name=loginName]').val(datas.data.username)
+                $('[name=nickName]').val(datas.data.nickname)
+                $('[name=email]').val(datas.data.email)
+            };
+
+            // 提交和重置模块
+            $('[name=userInfo]').on('submit', function (e) {
+                e.preventDefault()
+                subReset()
+            })
+            $('[name=userInfo]').on('reset', function (e) {
+                e.preventDefault()
+                getUserinfo()
+            })
+
+            // 封装一个提交修改ajax
+            function subReset() {
+                let layer = layui.layer
+
+                // 打包用户数据
+                let data = {
+                    id: $('[type=id]').val(),
+                    nickname: $('[name=nickName]').val(),
+                    email: $('[name=email]').val()
+                }
+                $.ajax({
+                    method: 'POST',
+                    url: '/my/userinfo',
+                    data: data,
+                    success: function (res) {
+                        if (res.code !== 0) {
+                            return alert(res.message)
+
+                        }
+                        layer.msg(res.message)
+                        // 从父网页调用方法重新渲染页面
+                        window.parent.getuserInfor()
+                    }
+
+                })
+            }
+
+
+
+        })()
+
+
+    </script>
+</body>
+
+</html>

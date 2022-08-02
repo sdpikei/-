@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <link rel="stylesheet" href="../lib/layui/css/layui.css">
+    <link rel="stylesheet" href="../css/setAvatar.css">
+    <link rel="stylesheet" href="../lib/cropper/cropper.css">
+</head>
+
+<body>
+    <div class="title layui-card">更换头像</div>
+    <div class="layui-card">
+        <div class="row1">
+            <img src="../images/sample2.jpg" alt="" id="image">
+        </div>
+        <div class="view">
+            <div class="preview w50"></div>
+            <div class="preview w100"></div>
+            <div class="row2">
+                <input type="file" name="" id="file" style="display: none;">
+                <button type="button" class="layui-btn" id="upload">上传</button>
+                <button type="button" class="layui-btn layui-btn-danger" id="sure">确定</button>
+            </div>
+        </div>
+
+
+    </div>
+
+
+
+
+    <script src="../lib/jquery.js"></script>
+    <script src="../lib/layui/layui.js"></script>
+    <script src="../js/userCenter.js"></script>
+    <script src="../js/APIbase.js"></script>
+    <script src="../lib/cropper/Cropper.js"></script>
+    <script src="../lib/cropper/jquery-cropper.js"></script>
+    <script>
+        // cropper调试
+        $('#image').cropper({
+            aspectRatio: 1,
+            viewMode: 1,
+            // crop—剪裁框发生变化执行的函数
+            crop: function (e) {
+
+            },
+            preview: '.preview'
+        });
+        let options = {
+            aspectRatio: 1,
+            viewMode: 1,
+            // crop—剪裁框发生变化执行的函数
+            crop: function (e) {
+
+            },
+            preview: '.preview'
+        }
+
+        // 图片上传模块
+
+        $('#upload').on('click', function () {
+            $('#file').click()
+        })
+
+        $('#file').on('change', function (e) {
+            console.log(e);
+            if (e.target.files.length === 0) {
+                return layer.msg('请选择照片！')
+            }
+            if (e.target.files.length > 0) {
+                let file = e.target.files[0]
+                // 创建上传图片的URL地址
+                let newImegURL = URL.createObjectURL(file)
+                // 更新图片
+                $('#image').cropper('destroy')      // 销毁旧的裁剪区域
+                    .attr('src', newImegURL)  // 重新设置图片路径
+                    .cropper(options)        // 重新初始化裁剪区域
+            }
+        })
+        // 点击确定上传服务器模块
+        layui.use('layer', function () {
+            var layer = layui.layer;
+
+
+        });
+        $('#sure').on('click', function () {
+
+            let newAvatarURL = $('#image').cropper('getCroppedCanvas', {
+                // 获取Canvas画布
+                width: 100,
+                height: 100
+                // 再转化为base64编码
+            }).toDataURL('image/png')
+
+
+            $.ajax({
+                method: 'PATCH',
+                url: '/my/update/avatar',
+                data: {
+                    avatar: newAvatarURL
+                },
+                success: function (res) {
+                    if (res.code !== 0) {
+                        return layer.msg(res.message)
+                    }
+                    layer.msg(res.message)
+                    console.log(res);
+                    // 重新渲染主页面
+                    window.parent.getuserInfor()
+                }
+            })
+
+        })
+
+
+    </script>
+</body>
+
+</html>

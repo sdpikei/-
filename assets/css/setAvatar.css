@@ -1,0 +1,70 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: rgb(239, 242, 245);
+    padding: 15px;
+}
+
+
+
+.title {
+    border-bottom: 1px solid #f0f0f0;
+    height: 100px;
+    line-height: 100px;
+    padding-left: 30px;
+    font-size: large;
+}
+
+.row1 {
+    width: 300px;
+    height: 300px;
+    float: left;
+    margin-right: 200px;
+    margin-left: 100px;
+    margin-top: 50px;
+
+}
+
+.view {
+
+    display: flex;
+
+    flex-direction: column;
+
+    justify-content: space-around;
+
+    height: 400px;
+
+
+}
+
+.w50 {
+    height: 50px;
+    width: 50px;
+    border-radius: 50px;
+    overflow: hidden;
+    margin-left: 25px;
+
+}
+
+.w100 {
+    height: 100px;
+    width: 100px;
+    border-radius: 100px;
+    overflow: hidden;
+}
+
+.row2 {
+    display: flex;
+    justify-content: start;
+    margin-top: 20px;
+    width: 400px;
+}
+
+.layui-card {
+    padding-bottom: 10px;
+}

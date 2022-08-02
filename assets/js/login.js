@@ -130,15 +130,16 @@
             password: $('.creat [name=password]').val()
         }
         // ajaxpost传送至服务器
-        $.post('http://www.liulongbin.top:3007/api/reguser', data, function (res) {
+        $.post('/api/reguser', data, function (res) {
             console.log(res);
             let layer = layui.layer
             if (res.status !== 0) {
-                layer.msg(res.message)
+                return layer.msg(res.message)
             }
             // 成功后进行弹框
 
             layer.msg(res.message)
+
             // 触发登录点击事件
             $('.btn').click()
 
@@ -156,12 +157,19 @@
         }
         // post发送
 
-        $.post('http://www.liulongbin.top:3007/api/login', data, function (res) {
-            if (res.status !== 0) {
-                layer.msg(res.message)
+        $.post('http://www.liulongbin.top:3008/api/login', data, function (res) {
+            if (res.code !== 0) {
+                console.log(res);
+                return layer.msg(res.message)
             }
             layer.msg(res.message)
+
+            console.log(res);
+            // 将token访问权限的数据储存至localstorage 本地储存
+            localStorage.setItem('token', res.token)
+
             // 跳转至index
+            window.location.href = "http://127.0.0.1:5500/%E5%A4%A7%E4%BA%8B%E4%BB%B6%E9%A1%B9%E7%9B%AE/index.html"
         })
     })
 })();

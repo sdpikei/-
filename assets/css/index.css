@@ -1,0 +1,66 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+
+.layui-side-scroll i {
+    margin-right: 8px;
+}
+
+.iconfont {
+    font-size: 12px;
+}
+
+.userHead .username {
+    margin-right: 14px;
+
+}
+
+.leftNV i {
+    margin-right: 8px;
+    vertical-align: bottom;
+}
+
+.layui-nav-child i {
+    margin-right: 10px;
+}
+
+.hellow span {
+    font-size: 14px;
+    color: #fff;
+    vertical-align: baseline;
+}
+
+.head {
+    width: 30px;
+    height: 30px;
+    border-radius: 30px;
+    background-color: #fff;
+    /* display: none; */
+    color: coral;
+    line-height: 30px;
+    text-align: center;
+    margin-right: 10px;
+    display: inline-block;
+}
+
+.layui-body {
+    background-color: #f0f0f0;
+    z-index: 1001;
+}
+
+
+
+.mask {
+    position: fixed;
+    left: 0px;
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
+    display: none;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: 1000;
+}

@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="../lib/layui/css/layui.css">
+    <link rel="stylesheet" href="../css/articleclass.css">
+</head>
+
+<body>
+    <div class="contain">
+        <div class="title layui-card ">文章分类
+            <button class="layui-btn layui-btn-normal layui-btn layui-btn-sm" id="topBtn">添加分类</button>
+        </div>
+
+        <div class="layui-card">
+            <table class="layui-table">
+                <colgroup>
+                    <col width="150">
+                    <col width="200">
+                    <col>
+                </colgroup>
+                <thead>
+                    <tr>
+                        <th>序号</th>
+                        <th>分类名称</th>
+                        <th>分类别名</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>贤心</td>
+                        <td>2016-11-29</td>
+                        <td>人生就像是一场修行</td>
+                        <td><button class="layui-btn layui-btn-normal layui-btn layui-btn-xs">修改</button><button class="layui-btn
+                                layui-btn-danger layui-btn layui-btn-xs">删除</button></td>
+                    </tr>
+                    <tr>
+                        <td>许闲心</td>
+                        <td>2016-11-28</td>
+                        <td>于千万人之中遇见你所遇见的人，于千万年之中，时间的无涯的荒野里…</td>
+                        <td><button class="layui-btn layui-btn-normal layui-btn layui-btn-xs">修改</button><button class="layui-btn
+                            layui-btn-danger layui-btn layui-btn-xs">删除</button></td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+
+        <!-- 添加分来弹出窗 -->
+        <div class="addArticle">
+            <div class="title">文章分类
+                <a href="#" class="off"><i class="layui-icon layui-icon-close"></i></a>
+            </div>
+            <form class="layui-form" action="" name="addArticle">
+                <div class="item">
+                    <label class="layui-form-label">分类名称:</label>
+                    <input type="text" required id="articleName" class="layui-layer-input layui-input">
+
+
+                </div>
+                <div class="item" id="nickcate">
+                    <label class="layui-form-label">分类别名:</label>
+                    <input type="text" required id="articleNick" class="layui-layer-input layui-input">
+                    <span class="erorr"></span>
+                </div>
+            </form>
+            <div class="addArticle-itme">
+                <button class="layui-btn layui-btn-primary  layui-btn-sm quite">取消</button>
+                <button class="layui-btn layui-btn-normal layui-btn-sm updata">确认</button>
+            </div>
+        </div>
+
+
+        <!-- 阴影遮罩 -->
+    </div>
+    <div class="mask"></div>
+
+    <script src="../lib/jquery.js"></script>
+    <script src="../js/APIbase.js"></script>
+    <script src="../lib/template-web.js"></script>
+    <script src="../lib/layui/layui.js"></script>
+    <script type="text/html" id="tpl-table">
+        {{each data}}
+        <tr>
+            <td>{{$index+1}}</td>
+            <td class="cate_name">{{$value.cate_name}}</td>
+            <td class="cate_alias">{{$value.cate_alias}}</td>
+            <td><button class="layui-btn layui-btn-normal layui-btn layui-btn-xs" name="refix" data-id={{$value.id}}>修改</button>
+                <button class="layui-btn layui-btn-danger layui-btn layui-btn-xs" name="delete" data-id={{$value.id}}>删除</button>
+            </td>
+        </tr>
+        {{/each}}
+    
+    </script>
+    <script type="text/html" id="tpl-reset">
+        <form class="layui-form" action="" name="addArticle" id="resetCate">
+            <div class="item">
+                <label class="layui-form-label">分类名称:</label>
+                <input type="text" required id="articleName" class="layui-layer-input layui-input" name="cate_name">
+
+
+            </div>
+            <div class="item" id="nickcate">
+                <label class="layui-form-label">分类别名:</label>
+                <input type="text" required id="articleNick" class="layui-layer-input layui-input" name="cate_alias">
+                <span class="erorr"></span>
+            </div>
+        </form>
+        <div class="addArticle-itme">
+            <button class="layui-btn layui-btn-normal layui-btn-sm " id="resetcateBtn">确认修改</button>
+        </div>
+    </script>
+    <!-- <script type="text/html" id="promt"></script> -->
+    <script>
+        layui.use(['layer', 'form'], function () {
+            var layer = layui.layer;
+            var csbform = layui.form;
+        });
+
+        function getArticleInfor() {
+
+            $.ajax({
+                method: 'GET',
+                url: '/my/cate/list',
+                success: function (res) {
+                    if (res.code !== 0) {
+                        return layer.msg(res.message)
+                    }
+
+                    console.log(res);
+                    // tamplate设置
+                    let artlist = template('tpl-table', res)
+                    $('tbody').html(artlist)
+                }
+            })
+        }
+        getArticleInfor()
+
+        // 添加分类弹出层调用layui的prompt
+        $("#topBtn").on('click', function () {
+            $('.addArticle').fadeIn(500).css({
+                width: '700px',
+                left: '25%',
+                transform: 'scale(1)'
+            })
+            // 更改iframe父页面的dom
+            // window.parent.document.querySelector('body').style.backgroundImage = 'linear-gradient(transparent,rgba(0, 0, 0, 0.5))'
+            $("#mask", window.parent.document).fadeIn(500)
+            // iframe也启动遮罩
+            $('.mask').fadeIn(500)
+            // 尝试layui自带功能--失败
+
+
+        })
+        // 关闭弹出窗
+        $('.off ').on('click', function () {
+            $('.addArticle').hide().css({
+                width: '600px',
+                left: '1%',
+                transform: 'scale(.1)'
+            })
+            $("#mask", window.parent.document).hide()
+            $('.mask').hide()
+
+        })
+        $('.quite').click(function () {
+            $('.off').click()
+        })
+        // 由于上传事件APIbody中cate_alias输入中文后直接400报错-无法取得success回调函数中的res-需要添加正则直接约束
+        $('#articleNick').on('blur', function () {
+
+            console.log(/^[a-zA-Z0-9]{3,16}$/.test($('#articleNick').val()));
+            if (!/^[a-zA-Z0-9]{3,16}$/.test($('#articleNick').val())) {
+                $('.erorr').text('分类别名只能为3-16为英文或数字！')
+                $('.updata').attr('disabled', true).addClass('layui-btn-disabled').removeClass('layui-btn-normal')
+                return
+            }
+            $('.erorr').text('')
+            $('.updata').attr('disabled', false).addClass('layui-btn-norma').removeClass('layui-btn-disabled')
+
+        })
+        // 添加上传事件
+        $('.updata').on('click', function () {
+            let articleData = {
+                cate_name: $('#articleName').val(),
+                cate_alias: $('#articleNick').val()
+            }
+            // 此API接口无法使用
+            $.ajax({
+                method: 'POST',
+                url: '/my/cate/add',
+                data: articleData,
+                success: function (res) {
+                    if (res.code == 1) {
+                        layer.msg(res.message)
+                        console.log(res);
+                    }
+                    console.log(res);
+                    layer.msg(res.message)
+                    $('.off').click()
+                    getArticleInfor()
+                }
+            })
+        });
+
+        (function () {
+
+            // 修改删除事件---使用冒泡-代理
+            $('tbody').on('click', '[name=delete]', function (e) {
+                console.log($(this));
+
+                // e.target.parentElement.parentElement
+                // 由于会重新获取数据渲染所以不需要页面进行DOM操作
+                // $(e.target).parent().parent().remove()
+                // 此API接口无法使用
+                let id = $(e.target).attr('data-id')
+                $.ajax({
+                    method: 'DELETE',
+                    url: '/my/cate/del?id=' + id,
+
+                    success: function (res) {
+                        if (res.code !== 0) {
+                            layer.msg(res.message)
+                            console.log(res);
+                        }
+                        layer.msg(res.message)
+                        console.log(res);
+
+                        getArticleInfor()
+                    }
+                })
+            });
+            // 修改
+            let alertReset = null
+
+            $('tbody').on('click', '[name=refix]', function (e) {
+                alertReset = layer.open({
+
+                    type: 1,
+                    content: $('#tpl-reset').html(),
+                    area: ['500px', 'auto'],
+                    title: '修改文章分类',
+                })
+                // SB layui，，此方法form未定义
+                //     csbform.val("resetCate", {
+                //         "cate_alias": '321',
+                //         "cate_name": '测试',
+                //     })
+                // 填充input内容
+
+                $('[name=cate_name]').val($(this).parent().siblings('.cate_name').text())
+                $('[name=cate_alias]').val($(this).parent().siblings('.cate_alias').text())
+                let id = $(this).attr('data-id')
+
+                // 修改提交按钮事件
+                $('body').on('click', '#resetcateBtn', function () {
+                    console.log(id);
+                    let data = {
+                        cate_alias: $('[name=cate_alias]').val(),
+                        cate_name: $('[name=cate_name]').val(),
+                        id: id
+                    }
+
+
+                    // 发送ajax请求服务器修改数据
+                    $.ajax({
+                        method: 'PUT',
+                        url: '/my/cate/info',
+                        data: data,
+                        success: function (res) {
+                            if (res.code !== 0) {
+                                console.log(res);
+                                layer.msg(res.message)
+                            }
+                            console.log(res);
+                            layer.msg(res.message)
+                            layer.close(alertReset)
+                            getArticleInfor()
+                        }
+
+                    })
+                })
+
+
+            });
+
+
+
+        })();
+
+
+
+    </script>
+</body>
+
+</html>

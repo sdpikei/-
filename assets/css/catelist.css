@@ -1,0 +1,133 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: rgb(239, 242, 245);
+    padding: 15px;
+}
+
+
+
+.layui-form-label {
+    width: auto;
+    padding: 9px 0 9px 15px;
+}
+
+
+.layui-form-select .layui-input {
+    padding-left: 15px;
+}
+
+
+
+
+
+.btnlaybel {
+    padding-left: 50px;
+}
+
+.layui-card {
+    padding-bottom: 10px;
+    padding-top: 20px;
+    /* border: 1px solid #f0f0f0; */
+}
+
+.labelContain {
+    padding: 20px 180px 20px;
+}
+
+.head {
+    padding: 0 60px;
+}
+
+.off {
+    float: right;
+    color: deepskyblue;
+}
+
+
+.cover-left {
+    width: 440px;
+    height: 280px;
+    overflow: hidden;
+
+}
+
+
+.cover-box {
+    display: flex;
+    flex-direction: column;
+}
+
+p {
+    margin-top: 5px;
+    font-size: 14px;
+}
+
+#bgupbtn {
+    border: dashed 1px;
+    box-shadow: 1px 1px 0px;
+    margin-top: 20px;
+}
+
+.subbtn {
+    margin-top: 30px;
+}
+
+.layui-form-select dl {
+    z-index: 9999 !important;
+    overflow: visible;
+
+}
+
+
+
+#tinydemo {
+    z-index: 1;
+}
+
+tbody a {
+    color: skyblue;
+}
+
+.preview p {
+    font-size: 16px;
+    margin-left: 20px;
+    color: rgba(0, 0, 0, .85)
+}
+
+.titile {
+    padding: 0 20px 15px;
+    color: rgba(0, 0, 0, .85)
+}
+
+.titile h5 {
+    font-size: 22px;
+    text-align: center;
+    line-height: 60px;
+}
+
+.titile span {
+    font-size: 12px;
+}
+
+.titile .key {
+    margin-right: 10px;
+}
+
+.content {
+    padding: 20px;
+}
+
+.contarea {
+    padding-top: 20px;
+}
+
+[name=cover_img] {
+    width: 400px;
+    height: 280px;
+    object-fit: cover;
+}

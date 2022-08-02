@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="../lib/layui/css/layui.css">
+    <link rel="stylesheet" href="">
+    <link rel="stylesheet" href="../lib/cropper/cropper.css">
+    <link rel="stylesheet" href="../css/catelist.css">
+
+
+</head>
+
+<body>
+    <div class="catlist">
+        <div class="layui-card">
+            <div class="layui-card-header">文章列表</div>
+
+        </div>
+        <div class="layui-card">
+            <form class="layui-form" action="" id="form-Data">
+                <div class="layui-form-item  layui-inline">
+                    <label class="layui-form-label">文章分类：</label>
+                    <div class="layui-input-block">
+                        <select name="cate_id" lay-verify="">
+                            <option value="">请选择分类</option>
+
+                        </select>
+                    </div>
+                </div>
+                <div class="layui-form-item  layui-inline">
+                    <label class="layui-form-label">发布状态：</label>
+                    <div class="layui-input-block">
+                        <select name="state" lay-verify="">
+                            <option value="">请选择状态</option>
+                            <option>草稿</option>
+                            <option>已发布</option>
+
+                        </select>
+                    </div>
+                </div>
+                <div class="layui-form-item  layui-inline btnlaybel">
+                    <button class="layui-btn layui-btn-normal layui-btn" type="submit">筛选</button>
+                    <button class="layui-btn layui-btn-primary layui-btn " type="reset">重置</button>
+                </div>
+                <div class="layui-form-item  layui-inline" style="float: right;margin-right: 20px;">
+                    <button class="layui-btn layui-btn-normal layui-btn" type="button" name="makeCate">发表文章</button>
+                </div>
+            </form>
+
+            <table class=" layui-table">
+                <colgroup>
+                    <col width="200">
+                    <col width="200">
+                    <col width="">
+                    <col width="200">
+                    <col width="200">
+                </colgroup>
+                <thead>
+                    <tr>
+                        <th>文章标题</th>
+                        <th>文章分类</th>
+                        <th>发表时间</th>
+                        <th>状态</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                </tbody>
+            </table>
+
+
+            <div id="mainBody"> </div>
+
+        </div>
+    </div>
+    <div class="makecate">
+        <div class="layui-card">
+            <div class="layui-card-header head">发表文章
+                <a href="#" class="off"><i class="layui-icon layui-icon-left"></i>返回</a>
+            </div>
+
+        </div>
+        <div class="layui-card labelContain">
+            <form class="layui-form" action="" name="upCatedata" method="post">
+
+                <div class="layui-form-item ">
+                    <label class="layui-form-label">文章分类:</label>
+                    <div class="layui-input-block">
+                        <select name="cate_id" lay-verify="">
+                            <option value="">请选择分类</option>
+
+                        </select>
+
+                    </div>
+                </div>
+                <div class="layui-form-item ">
+                    <label class="layui-form-label">文章标题:</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="title" required lay-verify="required" placeholder="请输入标题"
+                            autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item " style="height: 400px;z-index: 1">
+                    <label class="layui-form-label">文章内容:</label>
+                    <div class="layui-input-block" style="z-index: 1; position: relative;">
+                        <textarea id="tinydemo" name="content">
+                        </textarea>
+                    </div>
+
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">选则封面:</label>
+                    <div class="layui-input-block cover-box">
+                        <div class="cover-left">
+                            <img id="image" src="../images/sample2.jpg" alt="" />
+                        </div>
+                        <div class="cover-right">
+                            <p>注意：图片大小不能超过2M</p>
+                            <button type="button" class="layui-btn layui-btn-primary layui-btn-sm" id="bgupbtn">
+                                <i class="layui-icon">&#xe654;</i>上传图片
+                            </button>
+                            <input type="file" id="coverFile" style="display: none;"
+                                accept="image/png,image/jpeg,image/gif" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <div class="layui-input-block subbtn">
+                        <button class="layui-btn layui-btn-normal" type="submit" name="fabu">发布</button>
+                        <button class="layui-btn layui-btn-primary" type="submit" name="caogao">存为草稿</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+
+
+
+    <script src=" ../lib/jquery.js"></script>
+    <script src="../js/APIbase.js"></script>
+    <script src="../lib/template-web.js"></script>
+    <script src="../lib/layui/layui.js"></script>
+    <script src="../lib/cropper/Cropper.js"></script>
+    <script src="../lib/cropper/jquery-cropper.js"></script>
+    <script src="../lib/tinymce/js/tinymce/tinymce.min.js"></script>
+    <script type="text/html" id="tpl-list">
+    {{each data}}
+    <tr>
+        <td><a href="#" data-id={{$value.id}}>{{$value.title}}</a></td>
+        <td>{{$value.cate_name}}</td>
+        <td>{{$value.pub_date|dataFormat}}</td>
+        <td>{{$value.state}}</td>
+        <td>
+            <button class="layui-btn layui-btn-danger layui-btn layui-btn-sm" name="delete"
+                data-id={{$value.id}}>删除</button>
+        </td>
+    </tr>
+
+    {{/each}}
+    </script>
+    <script type="text/html" id="preview">
+        <div class="layui-card preview">
+            <p>文章预览</p>
+        </div>
+        <div class="layui-card titile ">
+            
+                <h5 name="cate_titile" style="margin: 0 auto;">{{data.title}}</h5>
+                <span>作者:</span><span class="key" name="nickname">{{data.nickname}}</span>
+                <span>发布时间:</span><span class="key"  name="pub_date">{{data.pub_date|dataFormat}}</span>
+                <span>所属分类:</span><span class="key" name="cate_name">{{data.cate_name}}</span>
+                <span>状态:</span><span class="key" name="cate_statu">{{data.state}}</span>
+
+        </div>
+        <div class="layui-card content" id="content">
+            <img src="http://www.liulongbin.top:3008{{data.cover_img}}" alt="" name="cover_img">
+            <div name="content" class="contarea">{{#data.content}}</div>
+        </div>
+    </script>
+    <script>
+
+        layui.use('form', function () {
+            var form = layui.form;
+
+        });
+        layui.use('layer', function () {
+
+            var layer = layui.layer;
+
+        });
+        // 获取文章列表
+        (function () {
+
+            // 获取列表渲染下拉菜单
+            $.ajax({
+                method: 'GET',
+                url: "/my/cate/list",
+                success: function (res) {
+                    console.log(res);
+                    $('[name=cate_id]').html(`<option value=''>请选择分类</option>`)
+                    // 循环渲染出数据
+
+                    for (let i = 0; i < res.data.length; i++) {
+                        $('[name=cate_id]').append(`<option value="${res.data[i].id}">${res.data[i].cate_name}</option>`)
+                    }
+
+                    // 调用layui方法重新渲染select表格
+                    layui.use('form', function () {
+                        var form = layui.form;
+                        form.render('select')
+
+                    });
+
+                }
+            })
+            // 定义美化时间的过滤器
+            template.defaults.imports.dataFormat = function (date) {
+                const dt = new Date(date)
+
+                var y = dt.getFullYear()
+                var m = padZero(dt.getMonth() + 1)
+                var d = padZero(dt.getDate())
+
+                var hh = padZero(dt.getHours())
+                var mm = padZero(dt.getMinutes())
+                var ss = padZero(dt.getSeconds())
+
+                return y + '-' + m + '-' + d + ' ' + hh + ':' + mm + ':' + ss
+            }
+
+            // 定义补零的函数
+            function padZero(n) {
+                return n > 9 ? n : '0' + n
+            }
+            // 默认渲染出所有文章列表信息
+            let baseData = {
+                pagenum: 1,
+                pagesize: 2,
+                cate_id: null,
+                state: null
+
+            }
+            function getArticleInfor() {
+                $.ajax({
+                    method: 'GET',
+                    url: '/my/article/list',
+                    data: baseData,
+                    success: function (res) {
+                        console.log(res);
+                        let artlist = template('tpl-list', res)
+                        $('tbody').html(artlist)
+
+                        // 渲染分页区域
+                        randeListPage(res.total)
+
+                    }
+                })
+            }
+            getArticleInfor()
+            //筛选功能
+            $('#form-Data').on('submit', function (e) {
+                e.preventDefault()
+                baseData['cate_id'] = $('[name=cate_id]').val()
+                baseData['state'] = $('#form-Data input')[1].value
+                // console.log($('[name=cate_id]').val());
+                // console.log($('[name=state]').val());
+                // 发送
+                getArticleInfor()
+            })
+            // 渲染分页区
+            function randeListPage(data) {
+                layui.use('laypage', function () {
+                    var laypage = layui.laypage;
+
+                    //执行渲染一个laypage实例
+                    laypage.render({
+                        elem: 'mainBody',//注意，这里的 test1 是 ID，不用加 # 号
+                        count: data, //数据总数，从服务端得到
+                        limit: baseData.pagesize, //每页显示的数据
+                        limits: [2, 5, 10],
+                        curr: baseData.pagenum,//初始显示页
+                        layout: ['prev', 'page', 'next', 'limit', 'skip'],
+
+                        // 切换分页的回调
+                        jump: function (obj, first) {
+                            //obj包含了当前分页的所有参数，比如：
+                            // console.log(obj.curr); //得到当前页，以便向服务端请求对应页的数据。
+                            // console.log(obj.limit); //得到每页显示的条数
+                            // 传入post Data参数
+                            baseData['pagenum'] = obj.curr;
+                            baseData['pagesize'] = obj.limit
+                            console.log(baseData);
+
+                            //首次不执行/first主要是判断是点击触发 还是渲染分页框触发，first返回flase
+                            if (!first) {
+                                //点击触发ajax回调渲染
+                                getArticleInfor()
+                            }
+                        }
+                    });
+                });
+
+
+            }
+            //点击删除模块
+            $('tbody').on('click', '[name=delete]', function () {
+                //  事件委托
+                let id = $(this).attr('data-id')
+                console.log(id);
+                layer.confirm('确认删除吗?永久的哦', { icon: 3, title: '提示' }, function (index) {
+                    //do something
+                    // ajax发送删除信息
+                    $.ajax({
+                        method: 'DELETE',
+                        url: '/my/article/info?id=' + id,
+                        success: function (res) {
+                            layer.msg('删除成功！')
+                            getArticleInfor()
+                        }
+
+                    })
+                    layer.close(index);
+                });
+
+
+            })
+            // 添加新文章模块
+            $('[name=makeCate]').on('click', function () {
+                $('.catlist').hide()
+                $('.makecate').show()
+            })
+            $('.off').on('click', function () {
+                layer.confirm('确认返回吗?', { icon: 3, title: '提示' }, function (index) {
+                    //do something
+                    $('.catlist').show()
+                    $('.makecate').hide()
+                    layer.close(index);
+                });
+
+            })
+            //引入富文本渲染器模块
+            // 初始化
+            tinymce.init({
+                selector: '#tinydemo', //容器，可使用css选择器
+                language: 'zh_CN', //调用放在langs文件夹内的语言包
+
+                inline: false, //开启内联模式
+                // plugins: ['quickbars', 'link', 'table'], //选择需加载的插件
+                // //选中时出现的快捷工具，与插件有依赖关系
+                // quickbars_selection_toolbar: 'bold italic forecolor | link blockquote quickimage',
+                branding: false,
+                setup: function (editor) {
+                    editor.on('change', function () {
+                        editor.save();
+                    });
+                }
+
+            });
+
+            // 引入cropper截图插件
+            $('#image').cropper({
+                aspectRatio: 440 / 280,
+                viewMode: 1,
+
+            });
+            let options = {
+                aspectRatio: 440 / 280,
+                viewMode: 1,
+
+            }
+            // 有BUG，当某个父元素加载页面默认隐藏时，cropper参数会失效！
+            $('.makecate').hide(500)
+
+            //绑定上传图片事件
+            $('#bgupbtn').on('click', function () {
+                $('#coverFile').click()
+            })
+            $('#coverFile').on('change', function (e) {
+                console.log(e);
+                if (e.target.files.length === 0) {
+                    return layer.msg('请选择照片！')
+                }
+                let file = e.target.files[0]
+                // 创建上传图片的URL地址
+                let newImegURL = URL.createObjectURL(file)
+                // 更新图片
+                $('#image').cropper('destroy')
+                    .attr('src', newImegURL)
+                    .cropper('options')
+            })
+
+            // 发布和草稿
+            let cate_statu = null
+            $('[name=fabu]').on('click', function () {
+                cate_statu = '已发布'
+            })
+            $('[name=caogao]').on('click', function () {
+                cate_statu = '草稿'
+            })
+            // 表单
+            $('[name=upCatedata]').on('submit', function (e) {
+                e.preventDefault()
+
+                let fd = new FormData($(this)[0])
+                fd.append('state', cate_statu)
+                // fd.forEach((e, k) => {
+                //     console.log(`${e}：${k}`);
+                // });
+                // 将裁剪区域中的画布转化为Blob文件传入FormData
+                let newAvatarURL = $('#image').cropper('getCroppedCanvas', {
+                    // 获取Canvas画布
+                    width: 400,
+                    height: 280
+                    // 再转化为blob
+                }).toBlob(function (blob) {
+                    fd.append('cover_img', blob)
+                    postNewcharts(fd)
+                })
+
+            })
+            // 定义ajax POST方法
+            function postNewcharts(data) {
+                $.ajax({
+                    method: 'POST',
+                    url: '/my/article/add',
+                    data: data,
+                    contentType: false,
+                    processData: false,
+                    success: function (res) {
+                        if (res.code !== 0) {
+                            console.log(res);
+                            layer.msg(res.message)
+                            return
+                        }
+                        console.log(res);
+                        layer.msg(res.message)
+                        $('.catlist').show()
+                        $('.makecate').hide()
+                        getArticleInfor()
+                    }
+
+                })
+            }
+
+
+        })();
+        (function () {
+            template.defaults.imports.dataFormat = function (date) {
+                const dt = new Date(date)
+                var y = dt.getFullYear()
+                var m = padZero(dt.getMonth() + 1)
+                var d = padZero(dt.getDate())
+                var hh = padZero(dt.getHours())
+                var mm = padZero(dt.getMinutes())
+                var ss = padZero(dt.getSeconds())
+
+                return y + '-' + m + '-' + d + ' ' + hh + ':' + mm + ':' + ss
+            }
+
+            // 定义补零的函数
+            function padZero(n) {
+                return n > 9 ? n : '0' + n
+            }
+            // 预览文章
+            $('tbody').on('click', 'a', function () {
+                //  发起AJAX请求得到ID数据
+                let id = $(this).attr('data-id')
+                $.ajax({
+                    method: 'GET',
+                    url: '/my/article/info?id=' + id,
+                    success: function (res) {
+                        if (res.code !== 0) {
+                            return layer.msg(res.message)
+                        }
+                        // 进行数据填充
+                        let content = template('preview', res)
+
+
+                        // 渲染
+                        layer.open({
+                            type: 1,
+                            title: false,
+                            'content': content,
+                            area: '800px'
+                        })
+                    }
+                })
+
+            })
+
+
+        })()
+    </script>
+</body>
+
+</html>
